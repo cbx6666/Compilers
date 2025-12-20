@@ -152,7 +152,7 @@ shared_ptr<ASTNode> RegexParser::parseCharset() {
         }
 
         // 检查是否是范围 a-z
-        if (peek() == '-' && pos < input.length() && input[pos + 1] != ']') {
+        if (peek() == '-' && pos + 1 < input.length() && input[pos + 1] != ']') {
             advance(); // 跳过 '-'
             char end;
             
@@ -164,6 +164,11 @@ shared_ptr<ASTNode> RegexParser::parseCharset() {
                 end = advance();
             } else {
                 end = advance();
+            }
+            
+            // 检查范围是否有效
+            if (start > end) {
+                throw runtime_error("字符类范围无效: 起始字符大于结束字符");
             }
             
             // 添加范围内所有字符

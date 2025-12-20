@@ -70,7 +70,7 @@ shared_ptr<NFA> ThompsonConstruction::buildCharset(shared_ptr<CharsetNode> node)
         if (!result) {
             result = charNFA;
         } else {
-            // 合并：result | charNFA
+            // 合并：result | charNFA，为 result | charNFA 创建新的起始和接受状态
             auto newStart = make_shared<NFAState>(getNextStateId());
             auto newAccept = make_shared<NFAState>(getNextStateId());
             
@@ -142,17 +142,25 @@ shared_ptr<NFA> ThompsonConstruction::buildStar(shared_ptr<StarNode> node) {
     return make_shared<NFA>(newStart, newAccept);
 }
 
-// 正闭包的NFA：NFA+ = NFA · NFA*
+// 正闭包的NFA：NFA+（要求至少匹配一次）
 shared_ptr<NFA> ThompsonConstruction::buildPlus(shared_ptr<PlusNode> node) {
-    // a+ = a · a*
+    // 只构建一次childNFA
     auto childNFA = build(node->child);
-    auto starNFA = buildStar(make_shared<StarNode>(node->child));
     
-    // 连接：childNFA · starNFA
-    childNFA->accept->addEpsilonTransition(starNFA->start);
+    // 创建新的起始和接受状态
+    auto newStart = make_shared<NFAState>(getNextStateId());
+    auto newAccept = make_shared<NFAState>(getNextStateId());
+    
+    // 从新起始状态必须通过childNFA（至少一次）
+    newStart->addEpsilonTransition(childNFA->start);
+    
+    // 从childNFA的接受状态通过epsilon转换到childNFA的起始状态（循环，0次或多次）
+    // 和到新接受状态（结束）
+    childNFA->accept->addEpsilonTransition(childNFA->start);
+    childNFA->accept->addEpsilonTransition(newAccept);
     childNFA->accept->isAccepting = false;
     
-    return make_shared<NFA>(childNFA->start, starNFA->accept);
+    return make_shared<NFA>(newStart, newAccept);
 }
 
 // Epsilon的NFA
