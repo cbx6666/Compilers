@@ -2,6 +2,7 @@
 #include <map>
 #include <set>
 #include <memory>
+#include <string>
 #include "NFA.h"
 
 using namespace std;
@@ -20,12 +21,12 @@ public:
     
     // 添加转换边
     void addTransition(char ch, shared_ptr<DFAState> target) {
-        this->transitions[ch] = target;
+        transitions[ch] = target;
     }
     
     // 检查是否有某个字符的转换
     bool hasTransition(char ch) const {
-        return this->transitions.find(ch) != this->transitions.end();
+        return transitions.find(ch) != transitions.end();
     }
 };
 
@@ -36,12 +37,12 @@ public:
     set<shared_ptr<DFAState>> states;  // 所有状态的集合
     
     DFA(shared_ptr<DFAState> s) : start(s) {
-        this->states.insert(s);
+        states.insert(s);
     }
     
     // 添加状态
     void addState(shared_ptr<DFAState> state) {
-        this->states.insert(state);
+        states.insert(state);
     }
     
     // 匹配字符串
@@ -51,7 +52,7 @@ public:
             if (!current->hasTransition(ch)) {
                 return false;
             }
-            current = current->this->transitions[ch];
+            current = current->transitions[ch];
         }
         return current->isAccepting;
     }

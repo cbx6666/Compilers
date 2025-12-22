@@ -2,6 +2,7 @@
 #include "NFA.h"
 #include "DFA.h"
 #include <memory>
+#include <set>
 
 using namespace std;
 

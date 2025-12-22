@@ -1,6 +1,8 @@
 #pragma once
 #include "DFA.h"
 #include <memory>
+#include <set>
+#include <vector>
 
 using namespace std;
 

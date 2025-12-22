@@ -1,6 +1,4 @@
 #include "DFAMinimizer.h"
-#include <stdexcept>
-#include <algorithm>
 #include <map>
 #include <string>
 
