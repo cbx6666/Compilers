@@ -6,6 +6,9 @@
 FLOAT_NUMBER    [0-9]+\.[0-9]+
 NUMBER          [0-9]+
 
+# ---------- String Literals ----------
+STRING_LITERAL  \"[^\"]*\"
+
 # ---------- Keywords ----------
 IF      if
 ELSE    else
@@ -47,9 +50,6 @@ LBRACE      \{
 RBRACE      \}
 LBRACKET    \[
 RBRACKET    \]
-
-# ---------- Whitespace ----------
-WHITESPACE  [ \t\r\n]+ IGNORE
 
 # ---------- Comments ----------
 LINE_COMMENT    //.* IGNORE

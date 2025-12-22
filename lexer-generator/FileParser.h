@@ -5,13 +5,12 @@
 using namespace std;
 
 struct LexerRule {
-    string tokenType;
-    string regex;
-    bool ignore;
-    int priority;
+  string tokenType;
+  string regex;
+  bool ignore;
 };
 
 class FileParser {
 public:
-    vector<LexerRule> readLexerRules(const string& filename);
+  vector<LexerRule> readLexerRules(const string &filename);
 };

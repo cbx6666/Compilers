@@ -17,12 +17,12 @@ public:
     
     // 添加转换边
     void addTransition(char ch, shared_ptr<NFAState> target) {
-        transitions[ch].push_back(target);
+        this->transitions[ch].push_back(target);
     }
     
     // 添加epsilon转换（用 '\0' 表示epsilon）
     void addEpsilonTransition(shared_ptr<NFAState> target) {
-        transitions['\0'].push_back(target);
+        this->transitions['\0'].push_back(target);
     }
 };
 
