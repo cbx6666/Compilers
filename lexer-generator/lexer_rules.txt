@@ -29,6 +29,7 @@ ID      [a-zA-Z_][a-zA-Z0-9_]*
 
 # ---------- Operators ----------
 NOT_EQUAL      !=
+EQUAL_EQUAL    ==
 GREATER_EQUAL  >=
 LESS_EQUAL     <=
 EQUAL          =
