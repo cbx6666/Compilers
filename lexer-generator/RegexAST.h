@@ -70,6 +70,7 @@ class CharsetNode : public ASTNode {
 
 class AnyNode : public ASTNode {
   public:
+    AnyNode() { type = NodeType::ANY; }
 };
 
 class EpsilonNode : public ASTNode {

@@ -73,6 +73,7 @@ int main() {
 
         cout << "词法分析器生成成功！" << endl;
         cout << "输出文件: " << outputFile << endl;
+
     } catch (const exception &e) {
         cerr << "错误: " << e.what() << endl;
         return 1;

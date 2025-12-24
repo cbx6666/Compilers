@@ -12,8 +12,8 @@ class DFAState {
   public:
     int id;
     map<char, shared_ptr<DFAState>>
-        transitions;  // 转换表：字符 ->
-                      // 目标状态（确定性的，每个字符只有一个目标状态）
+        transitions; // 转换表：字符 ->
+                     // 目标状态（确定性的，每个字符只有一个目标状态）
     bool isAccepting; // 是否为接受状态
 
     // 该DFA状态对应的NFA状态集合（子集构造时使用）
