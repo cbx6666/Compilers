@@ -89,17 +89,10 @@ void GrammarParser::parseProduction(const string &line, Grammar &grammar,
         currentProduction = &grammar.productions.back();
     }
 
-    // 解析右侧候选式（用 | 分隔）
-    istringstream rightStream(right);
-    string candidate;
-
-    while (getline(rightStream, candidate, '|')) {
-        candidate = trim(candidate);
-        if (candidate.empty())
-            continue;
-
+    // 解析右侧第一个候选式
+    if (!right.empty()) {
         vector<string> symbols;
-        istringstream symbolStream(candidate);
+        istringstream symbolStream(right);
         string symbol;
 
         while (symbolStream >> symbol) {
@@ -110,7 +103,7 @@ void GrammarParser::parseProduction(const string &line, Grammar &grammar,
             }
         }
 
-        if (symbols.empty() && candidate == "ε") {
+        if (symbols.empty() && right == "ε") {
             symbols.clear(); // 空产生式用空向量表示
         }
 
@@ -139,7 +132,7 @@ Grammar GrammarParser::parseGrammar(const string &filename,
     // 第一遍：解析产生式，收集所有符号
     while (getline(file, line)) {
         // 去除换行符
-        if (!line.empty() && line.back() == '\r') {
+        if (!line.empty() && line.back() == '\r' && line.back() == '\n') {
             line.pop_back();
         }
 
@@ -158,11 +151,10 @@ Grammar GrammarParser::parseGrammar(const string &filename,
             continue;
         }
 
-        // 处理产生式（根据 -> 和 | 判断）
         parseProduction(line, grammar, currentProduction, allSymbols);
     }
 
-    // 第二遍：识别终结符（所有符号中，不是非终结符的就是终结符）
+    // 第二遍：识别终结符
     for (const string &symbol : allSymbols) {
         if (symbol == "ε")
             continue;
@@ -181,7 +173,7 @@ Grammar GrammarParser::parseGrammar(const string &filename,
                 << "Warning: Unknown terminal symbol '" << symbol
                 << "' found in grammar rules. It is not defined in lexer rules."
                 << endl;
-            grammar.terminals.insert(symbol); // 仍然将其视为终结符
+            grammar.terminals.insert(symbol); 
         }
     }
 
