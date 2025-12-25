@@ -2,109 +2,84 @@
 
 using namespace std;
 
-set<string>
-FirstCalculator::firstOfSymbol(const string &symbol, const Grammar &grammar,
-                               map<string, set<string>> &firstCache) {
-    // 如果已经计算过，直接返回
-    if (firstCache.find(symbol) != firstCache.end()) {
-        return firstCache[symbol];
+set<string> FirstCalculator::firstOfSequence(
+    const vector<string> &sequence, const Grammar &grammar,
+    const map<string, set<string>> &firstMap) {
+    set<string> result;
+
+    // α = ε
+    if (sequence.empty()) {
+        result.insert("ε");
+        return result;
     }
 
-    set<string> first;
+    // FIRST(X1 X2 ... Xn)
+    for (size_t i = 0; i < sequence.size(); i++) {
+        const string &X = sequence[i];
 
-    // 如果是终结符，FIRST(a) = {a}
-    if (grammar.terminals.find(symbol) != grammar.terminals.end()) {
-        first.insert(symbol);
-        firstCache[symbol] = first;
-        return first;
+        // 终结符：FIRST 直接是自身
+        if (grammar.terminals.find(X) != grammar.terminals.end()) {
+            result.insert(X);
+            return result;
+        }
+
+        // 非终结符：从 firstMap 中取 FIRST(X)
+        auto it = firstMap.find(X);
+        // 加入 FIRST(X) - {ε}
+        for (const string &t : it->second) {
+            if (t != "ε") {
+                result.insert(t);
+            }
+        }
+
+        // 如果 FIRST(X) 不含 ε，则停止
+        if (it->second.find("ε") == it->second.end()) {
+            return result;
+        }
+
+        // 如果到最后一个符号都能推出 ε，则 ε ∈ FIRST(α)
+        if (i == sequence.size() - 1) {
+            result.insert("ε");
+            return result;
+        }
     }
 
-    // 如果是非终结符，需要查找所有产生式
-    for (const auto &prod : grammar.productions) {
-        if (prod.left == symbol) {
-            // 对每个候选式计算 FIRST
+    return result;
+}
+
+map<string, set<string>>
+FirstCalculator::calculateFirst(const Grammar &grammar) {
+    map<string, set<string>> first;
+
+    // 初始化：终结符
+    for (const string &t : grammar.terminals) {
+        first[t].insert(t);
+    }
+
+    // 初始化：非终结符为空集合
+    for (const string &A : grammar.nonTerminals) {
+        (void)first[A]; // 确保 key 存在
+    }
+
+    // 迭代直到收敛
+    bool changed = true;
+    while (changed) {
+        changed = false;
+
+        for (const auto &prod : grammar.productions) {
+            const string &A = prod.left;
+
             for (const auto &candidate : prod.right) {
-                if (candidate.empty()) {
-                    // 空产生式：ε ∈ FIRST(A)
-                    first.insert("ε");
-                } else {
-                    // 计算符号串的 FIRST
-                    set<string> candidateFirst =
-                        firstOfString(candidate, grammar, firstCache);
-                    first.insert(candidateFirst.begin(), candidateFirst.end());
+                set<string> firstAlpha = firstOfSequence(candidate, grammar, first);
+
+                size_t before = first[A].size();
+                first[A].insert(firstAlpha.begin(), firstAlpha.end());
+                if (first[A].size() != before) {
+                    changed = true;
                 }
             }
         }
     }
 
-    firstCache[symbol] = first;
     return first;
-}
-
-set<string>
-FirstCalculator::firstOfString(const vector<string> &symbols,
-                               const Grammar &grammar,
-                               map<string, set<string>> &firstCache) {
-    set<string> first;
-
-    if (symbols.empty()) {
-        first.insert("ε");
-        return first;
-    }
-
-    // 对每个符号计算 FIRST
-    for (size_t i = 0; i < symbols.size(); i++) {
-        set<string> symbolFirst =
-            firstOfSymbol(symbols[i], grammar, firstCache);
-
-        // 添加 FIRST(Xi) - {ε} 到结果
-        for (const string &terminal : symbolFirst) {
-            if (terminal != "ε") {
-                first.insert(terminal);
-            }
-        }
-
-        // 如果 ε 不在 FIRST(Xi) 中，停止
-        if (symbolFirst.find("ε") == symbolFirst.end()) {
-            break;
-        }
-
-        // 如果所有符号都能推导出 ε，则 ε ∈ FIRST(α)
-        if (i == symbols.size() - 1) {
-            first.insert("ε");
-        }
-    }
-
-    return first;
-}
-
-map<string, set<string>>
-FirstCalculator::calculateFirst(const Grammar &grammar) {
-    // 缓存已经计算过的 FIRST 集合
-    map<string, set<string>> firstCache;
-
-    // 计算所有符号的 FIRST 集合
-    // 先计算终结符
-    for (const string &terminal : grammar.terminals) {
-        set<string> first;
-        first.insert(terminal);
-        firstCache[terminal] = first;
-    }
-
-    // 计算所有非终结符的 FIRST 集合（可能需要多轮迭代）
-    bool changed = true;
-    while (changed) {
-        changed = false;
-        for (const string &nonTerminal : grammar.nonTerminals) {
-            set<string> oldFirst = firstCache[nonTerminal];
-            set<string> newFirst =
-                firstOfSymbol(nonTerminal, grammar, firstCache);
-            if (oldFirst != newFirst) {
-                changed = true;
-                firstCache[nonTerminal] = newFirst;
-            }
-        }
-    }
-
-    return firstCache;
 }

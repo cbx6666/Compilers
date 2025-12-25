@@ -8,16 +8,14 @@ using namespace std;
 
 class FirstCalculator {
   public:
-    // 计算所有符号的 FIRST 集合
+    // 计算 FIRST 集合：
+    // - 返回的 map 同时包含终结符和非终结符的 FIRST
+    // - 空产生式用空向量表示，对应 FIRST(ε) = { ε }
     map<string, set<string>> calculateFirst(const Grammar &grammar);
 
   private:
-    // 计算单个符号的 FIRST 集合
-    set<string> firstOfSymbol(const string &symbol, const Grammar &grammar,
-                              map<string, set<string>> &firstCache);
-
-    // 计算符号串的 FIRST 集合
-    set<string> firstOfString(const vector<string> &symbols,
-                              const Grammar &grammar,
-                              map<string, set<string>> &firstCache);
+    // 计算符号串 α 的 FIRST(α)，基于当前的 FIRST 映射
+    set<string> firstOfSequence(const vector<string> &sequence,
+                                const Grammar &grammar,
+                                const map<string, set<string>> &firstMap);
 };

@@ -7,7 +7,6 @@
 #include <string>
 #include <vector>
 
-
 using namespace std;
 
 // 产生式规则：用索引表示 Production 中的某个候选式
@@ -15,13 +14,8 @@ struct ProductionRule {
     string left;        // 非终结符
     int candidateIndex; // 候选式在 Production.right 中的索引
 
+    ProductionRule() : left(""), candidateIndex(-1) {}
     ProductionRule(const string &l, int idx) : left(l), candidateIndex(idx) {}
-
-    bool operator<(const ProductionRule &other) const {
-        if (left != other.left)
-            return left < other.left;
-        return candidateIndex < other.candidateIndex;
-    }
 };
 
 class ParsingTable {
@@ -33,6 +27,11 @@ class ParsingTable {
                const map<string, set<string>> &follow);
 
   private:
+    bool isEpsilonCandidate(const Grammar &grammar, const ProductionRule &rule);
+    bool tryPut(map<string, map<string, ProductionRule>> &table,
+                const Grammar &grammar, const string &A, const string &terminal,
+                const ProductionRule &newRule);
+
     // 计算产生式候选式的 FIRST 集合
     set<string> firstOfCandidate(const vector<string> &candidate,
                                  const map<string, set<string>> &first);

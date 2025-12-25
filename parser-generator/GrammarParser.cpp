@@ -6,7 +6,7 @@
 
 using namespace std;
 
-string trim(const string &str) {
+static string trim(const string &str) {
     const char *trim_chars = " \t\n";
     size_t start = str.find_first_not_of(trim_chars);
     if (start == string::npos)
@@ -173,7 +173,7 @@ Grammar GrammarParser::parseGrammar(const string &filename,
                 << "Warning: Unknown terminal symbol '" << symbol
                 << "' found in grammar rules. It is not defined in lexer rules."
                 << endl;
-            grammar.terminals.insert(symbol); 
+            grammar.terminals.insert(symbol);
         }
     }
 
