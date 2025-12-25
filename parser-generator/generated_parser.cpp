@@ -80,7 +80,12 @@ class Parser {
 void Parser::parseAddExpr() {
     string lookahead = currentTokenType();
     
-    if (lookahead == "ID") {
+    if (lookahead == "FLOAT_NUMBER") {
+        parseMulExpr();
+        lookahead = currentTokenType();
+        parseAddExpr_();
+        lookahead = currentTokenType();
+    } else if (lookahead == "ID") {
         parseMulExpr();
         lookahead = currentTokenType();
         parseAddExpr_();
@@ -101,7 +106,7 @@ void Parser::parseAddExpr() {
         parseAddExpr_();
         lookahead = currentTokenType();
     } else {
-        error("Unexpected token for AddExpr, expected one of: ID, LPAREN, MINUS, NUMBER");
+        error("Unexpected token for AddExpr, expected one of: FLOAT_NUMBER, ID, LPAREN, MINUS, NUMBER");
     }
 }
 
@@ -198,7 +203,10 @@ void Parser::parseElsePart() {
 void Parser::parseExpr() {
     string lookahead = currentTokenType();
     
-    if (lookahead == "ID") {
+    if (lookahead == "FLOAT_NUMBER") {
+        parseRelExpr();
+        lookahead = currentTokenType();
+    } else if (lookahead == "ID") {
         parseRelExpr();
         lookahead = currentTokenType();
     } else if (lookahead == "LPAREN") {
@@ -211,7 +219,7 @@ void Parser::parseExpr() {
         parseRelExpr();
         lookahead = currentTokenType();
     } else {
-        error("Unexpected token for Expr, expected one of: ID, LPAREN, MINUS, NUMBER");
+        error("Unexpected token for Expr, expected one of: FLOAT_NUMBER, ID, LPAREN, MINUS, NUMBER");
     }
 }
 
@@ -245,7 +253,12 @@ void Parser::parseIfStmt() {
 void Parser::parseMulExpr() {
     string lookahead = currentTokenType();
     
-    if (lookahead == "ID") {
+    if (lookahead == "FLOAT_NUMBER") {
+        parseUnaryExpr();
+        lookahead = currentTokenType();
+        parseMulExpr_();
+        lookahead = currentTokenType();
+    } else if (lookahead == "ID") {
         parseUnaryExpr();
         lookahead = currentTokenType();
         parseMulExpr_();
@@ -266,7 +279,7 @@ void Parser::parseMulExpr() {
         parseMulExpr_();
         lookahead = currentTokenType();
     } else {
-        error("Unexpected token for MulExpr, expected one of: ID, LPAREN, MINUS, NUMBER");
+        error("Unexpected token for MulExpr, expected one of: FLOAT_NUMBER, ID, LPAREN, MINUS, NUMBER");
     }
 }
 
@@ -312,7 +325,10 @@ void Parser::parseMulExpr_() {
 void Parser::parsePrimary() {
     string lookahead = currentTokenType();
     
-    if (lookahead == "ID") {
+    if (lookahead == "FLOAT_NUMBER") {
+        consume();
+        lookahead = currentTokenType();
+    } else if (lookahead == "ID") {
         consume();
         lookahead = currentTokenType();
     } else if (lookahead == "LPAREN") {
@@ -329,7 +345,7 @@ void Parser::parsePrimary() {
         consume();
         lookahead = currentTokenType();
     } else {
-        error("Unexpected token for Primary, expected one of: ID, LPAREN, NUMBER");
+        error("Unexpected token for Primary, expected one of: FLOAT_NUMBER, ID, LPAREN, NUMBER");
     }
 }
 
@@ -359,7 +375,12 @@ void Parser::parseProgram() {
 void Parser::parseRelExpr() {
     string lookahead = currentTokenType();
     
-    if (lookahead == "ID") {
+    if (lookahead == "FLOAT_NUMBER") {
+        parseAddExpr();
+        lookahead = currentTokenType();
+        parseRelExpr_();
+        lookahead = currentTokenType();
+    } else if (lookahead == "ID") {
         parseAddExpr();
         lookahead = currentTokenType();
         parseRelExpr_();
@@ -380,7 +401,7 @@ void Parser::parseRelExpr() {
         parseRelExpr_();
         lookahead = currentTokenType();
     } else {
-        error("Unexpected token for RelExpr, expected one of: ID, LPAREN, MINUS, NUMBER");
+        error("Unexpected token for RelExpr, expected one of: FLOAT_NUMBER, ID, LPAREN, MINUS, NUMBER");
     }
 }
 
@@ -489,7 +510,10 @@ void Parser::parseStmtList() {
 void Parser::parseUnaryExpr() {
     string lookahead = currentTokenType();
     
-    if (lookahead == "ID") {
+    if (lookahead == "FLOAT_NUMBER") {
+        parsePrimary();
+        lookahead = currentTokenType();
+    } else if (lookahead == "ID") {
         parsePrimary();
         lookahead = currentTokenType();
     } else if (lookahead == "LPAREN") {
@@ -504,7 +528,7 @@ void Parser::parseUnaryExpr() {
         parsePrimary();
         lookahead = currentTokenType();
     } else {
-        error("Unexpected token for UnaryExpr, expected one of: ID, LPAREN, MINUS, NUMBER");
+        error("Unexpected token for UnaryExpr, expected one of: FLOAT_NUMBER, ID, LPAREN, MINUS, NUMBER");
     }
 }
 

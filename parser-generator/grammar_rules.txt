@@ -60,5 +60,6 @@ UnaryExpr      -> MINUS UnaryExpr
                | Primary
 
 Primary        -> NUMBER
+               | FLOAT_NUMBER
                | ID
                | LPAREN Expr RPAREN
