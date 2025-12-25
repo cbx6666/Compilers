@@ -1,0 +1,65 @@
+# ===============================
+# Grammar Rules (LL(1))
+# ===============================
+
+%start Program
+
+# ---------- Program Structure ----------
+
+Program        -> StmtList
+
+StmtList       -> Stmt StmtList
+               | ε
+
+# ---------- Statements ----------
+
+Stmt           -> AssignStmt
+               | IfStmt
+               | WhileStmt
+               | Block
+
+AssignStmt     -> ID EQUAL Expr SEMICOLON
+
+IfStmt         -> IF LPAREN Expr RPAREN Stmt ElsePart
+
+ElsePart       -> ELSE Stmt
+               | ε
+
+WhileStmt      -> WHILE LPAREN Expr RPAREN Stmt
+
+Block          -> LBRACE StmtList RBRACE
+
+# ---------- Expressions ----------
+
+Expr           -> RelExpr
+
+RelExpr        -> AddExpr RelExpr'
+
+RelExpr'       -> EQUAL_EQUAL AddExpr RelExpr'
+               | NOT_EQUAL AddExpr RelExpr'
+               | GREATER AddExpr RelExpr'
+               | LESS AddExpr RelExpr'
+               | GREATER_EQUAL AddExpr RelExpr'
+               | LESS_EQUAL AddExpr RelExpr'
+               | ε
+
+AddExpr        -> MulExpr AddExpr'
+
+AddExpr'       -> PLUS MulExpr AddExpr'
+               | MINUS MulExpr AddExpr'
+               | ε
+
+MulExpr        -> UnaryExpr MulExpr'
+
+MulExpr'       -> MULTIPLY UnaryExpr MulExpr'
+               | DIVIDE UnaryExpr MulExpr'
+               | MOD UnaryExpr MulExpr'
+               | ε
+
+UnaryExpr      -> MINUS UnaryExpr
+               | Primary
+
+Primary        -> NUMBER
+               | FLOAT_NUMBER
+               | ID
+               | LPAREN Expr RPAREN

@@ -1,0 +1,56 @@
+# ===============================
+# Lexer Rules
+# ===============================
+
+# ---------- Numbers ----------
+FLOAT_NUMBER    [0-9]+\.[0-9]+
+NUMBER          [0-9]+
+
+# ---------- String Literals ----------
+STRING_LITERAL  \"[^\"]*\"
+
+# ---------- Keywords ----------
+IF      if
+ELSE    else
+FOR     for
+WHILE   while
+DO      do
+BREAK   break
+CONTINUE continue
+RETURN  return
+VOID    void
+INT     int
+FLOAT   float
+CHAR    char
+STRING  string
+
+# ---------- Identifiers ----------
+ID      [a-zA-Z_][a-zA-Z0-9_]*
+
+# ---------- Operators ----------
+NOT_EQUAL      !=
+EQUAL_EQUAL    ==
+GREATER_EQUAL  >=
+LESS_EQUAL     <=
+EQUAL          =
+GREATER        >
+LESS           <
+PLUS           \+
+MINUS          -
+MULTIPLY       \*
+DIVIDE         /
+MOD            %
+
+# ---------- Delimiters ----------
+COMMA       ,
+SEMICOLON   ;
+COLON       :
+LPAREN      \(
+RPAREN      \)
+LBRACE      \{
+RBRACE      \}
+LBRACKET    \[
+RBRACKET    \]
+
+# ---------- Comments ----------
+LINE_COMMENT    //.* IGNORE
