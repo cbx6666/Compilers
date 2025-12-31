@@ -1,0 +1,28 @@
+    x = 123
+    y = 45.67
+    t1 = x > 100
+    ifFalse t1 goto L1
+    z = 789
+    goto L2
+L1:
+    w = 0
+    z = 0
+L2:
+L3:
+    t2 = x < 200
+    ifFalse t2 goto L4
+    t3 = x + 1
+    x = t3
+    goto L3
+L4:
+    t4 = x * y
+    t5 = z / 2
+    t6 = t4 + t5
+    result = t6
+    t7 = result == 0
+    ifFalse t7 goto L5
+    t8 = 0 - result
+    result = t8
+    goto L6
+L5:
+L6:
