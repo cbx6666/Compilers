@@ -50,13 +50,23 @@ g++ -std=c++11 FirstCalculator.cpp FollowCalculator.cpp GrammarParser.cpp Parsin
 ### 编译测试程序
 
 ```bash
-g++ -std=c++11 test_parser.cpp -o test_parser.exe
+
+chcp 65001
+
+$OutputEncoding = [Console]::OutputEncoding = [System.Text.UTF8Encoding]::UTF8 
+
+g++ -std=c++17 -O2 `
+>>   parser-generator\IRGenerator.cpp `
+>>   parser-generator\ir.cpp `
+>>   parser-generator\test_parser_ast_icg.cpp `
+>>   -Iparser-generator -Ilexer-generator `
+>>   -o test_icg
 ```
 
 ### 运行测试
 
 ```bash
-./test_parser.exe
+.\test_icg.exe
 ```
 
 ## 规则文件格式
