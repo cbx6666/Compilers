@@ -391,12 +391,12 @@ vector<Token*> Lexer::tokenize() {
 }
 
 int Lexer::matchDFA0(size_t startPos) {
-    int state = 2;
+    int state = 3;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[4] = {false, true, false, false};
+    bool accepting[4] = {false, false, true, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[4][256];
@@ -407,16 +407,17 @@ int Lexer::matchDFA0(size_t startPos) {
         }
     }
     
-    transitions[0][48] = 1;
-    transitions[0][49] = 1;
-    transitions[0][50] = 1;
-    transitions[0][51] = 1;
-    transitions[0][52] = 1;
-    transitions[0][53] = 1;
-    transitions[0][54] = 1;
-    transitions[0][55] = 1;
-    transitions[0][56] = 1;
-    transitions[0][57] = 1;
+    transitions[0][48] = 2;
+    transitions[0][49] = 2;
+    transitions[0][50] = 2;
+    transitions[0][51] = 2;
+    transitions[0][52] = 2;
+    transitions[0][53] = 2;
+    transitions[0][54] = 2;
+    transitions[0][55] = 2;
+    transitions[0][56] = 2;
+    transitions[0][57] = 2;
+    transitions[1][46] = 0;
     transitions[1][48] = 1;
     transitions[1][49] = 1;
     transitions[1][50] = 1;
@@ -427,27 +428,26 @@ int Lexer::matchDFA0(size_t startPos) {
     transitions[1][55] = 1;
     transitions[1][56] = 1;
     transitions[1][57] = 1;
-    transitions[2][48] = 3;
-    transitions[2][49] = 3;
-    transitions[2][50] = 3;
-    transitions[2][51] = 3;
-    transitions[2][52] = 3;
-    transitions[2][53] = 3;
-    transitions[2][54] = 3;
-    transitions[2][55] = 3;
-    transitions[2][56] = 3;
-    transitions[2][57] = 3;
-    transitions[3][46] = 0;
-    transitions[3][48] = 3;
-    transitions[3][49] = 3;
-    transitions[3][50] = 3;
-    transitions[3][51] = 3;
-    transitions[3][52] = 3;
-    transitions[3][53] = 3;
-    transitions[3][54] = 3;
-    transitions[3][55] = 3;
-    transitions[3][56] = 3;
-    transitions[3][57] = 3;
+    transitions[2][48] = 2;
+    transitions[2][49] = 2;
+    transitions[2][50] = 2;
+    transitions[2][51] = 2;
+    transitions[2][52] = 2;
+    transitions[2][53] = 2;
+    transitions[2][54] = 2;
+    transitions[2][55] = 2;
+    transitions[2][56] = 2;
+    transitions[2][57] = 2;
+    transitions[3][48] = 1;
+    transitions[3][49] = 1;
+    transitions[3][50] = 1;
+    transitions[3][51] = 1;
+    transitions[3][52] = 1;
+    transitions[3][53] = 1;
+    transitions[3][54] = 1;
+    transitions[3][55] = 1;
+    transitions[3][56] = 1;
+    transitions[3][57] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -528,12 +528,12 @@ int Lexer::matchDFA1(size_t startPos) {
 }
 
 int Lexer::matchDFA2(size_t startPos) {
-    int state = 2;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[3] = {true, false, false};
+    bool accepting[3] = {false, false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[3][256];
@@ -544,6 +544,7 @@ int Lexer::matchDFA2(size_t startPos) {
         }
     }
     
+    transitions[0][34] = 1;
     transitions[1][128] = 1;
     transitions[1][129] = 1;
     transitions[1][130] = 1;
@@ -704,7 +705,7 @@ int Lexer::matchDFA2(size_t startPos) {
     transitions[1][31] = 1;
     transitions[1][32] = 1;
     transitions[1][33] = 1;
-    transitions[1][34] = 0;
+    transitions[1][34] = 2;
     transitions[1][35] = 1;
     transitions[1][36] = 1;
     transitions[1][37] = 1;
@@ -798,7 +799,6 @@ int Lexer::matchDFA2(size_t startPos) {
     transitions[1][125] = 1;
     transitions[1][126] = 1;
     transitions[1][127] = 1;
-    transitions[2][34] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -826,7 +826,7 @@ int Lexer::matchDFA3(size_t startPos) {
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[3] = {false, false, true};
+    bool accepting[3] = {true, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[3][256];
@@ -837,8 +837,8 @@ int Lexer::matchDFA3(size_t startPos) {
         }
     }
     
-    transitions[0][102] = 2;
-    transitions[1][105] = 0;
+    transitions[1][105] = 2;
+    transitions[2][102] = 0;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -861,12 +861,12 @@ int Lexer::matchDFA3(size_t startPos) {
 }
 
 int Lexer::matchDFA4(size_t startPos) {
-    int state = 3;
+    int state = 2;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[5] = {false, false, false, false, true};
+    bool accepting[5] = {true, false, false, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[5][256];
@@ -877,10 +877,10 @@ int Lexer::matchDFA4(size_t startPos) {
         }
     }
     
-    transitions[0][115] = 2;
-    transitions[1][108] = 0;
-    transitions[2][101] = 4;
-    transitions[3][101] = 1;
+    transitions[1][108] = 3;
+    transitions[2][101] = 1;
+    transitions[3][115] = 4;
+    transitions[4][101] = 0;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -908,7 +908,7 @@ int Lexer::matchDFA5(size_t startPos) {
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[4] = {false, true, false, false};
+    bool accepting[4] = {true, false, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[4][256];
@@ -919,9 +919,9 @@ int Lexer::matchDFA5(size_t startPos) {
         }
     }
     
-    transitions[0][111] = 2;
-    transitions[2][114] = 1;
-    transitions[3][102] = 0;
+    transitions[1][114] = 0;
+    transitions[2][111] = 1;
+    transitions[3][102] = 2;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -944,12 +944,12 @@ int Lexer::matchDFA5(size_t startPos) {
 }
 
 int Lexer::matchDFA6(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[6] = {true, false, false, false, false, false};
+    bool accepting[6] = {false, false, false, true, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[6][256];
@@ -960,11 +960,11 @@ int Lexer::matchDFA6(size_t startPos) {
         }
     }
     
-    transitions[1][119] = 4;
-    transitions[2][108] = 5;
-    transitions[3][105] = 2;
-    transitions[4][104] = 3;
-    transitions[5][101] = 0;
+    transitions[0][119] = 2;
+    transitions[1][101] = 3;
+    transitions[2][104] = 5;
+    transitions[4][108] = 1;
+    transitions[5][105] = 4;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -987,12 +987,12 @@ int Lexer::matchDFA6(size_t startPos) {
 }
 
 int Lexer::matchDFA7(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[3] = {false, false, true};
+    bool accepting[3] = {false, true, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[3][256];
@@ -1003,8 +1003,8 @@ int Lexer::matchDFA7(size_t startPos) {
         }
     }
     
-    transitions[0][111] = 2;
-    transitions[1][100] = 0;
+    transitions[0][100] = 2;
+    transitions[2][111] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1027,12 +1027,12 @@ int Lexer::matchDFA7(size_t startPos) {
 }
 
 int Lexer::matchDFA8(size_t startPos) {
-    int state = 5;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[6] = {true, false, false, false, false, false};
+    bool accepting[6] = {false, false, false, true, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[6][256];
@@ -1043,11 +1043,11 @@ int Lexer::matchDFA8(size_t startPos) {
         }
     }
     
-    transitions[1][114] = 2;
-    transitions[2][101] = 4;
-    transitions[3][107] = 0;
-    transitions[4][97] = 3;
-    transitions[5][98] = 1;
+    transitions[0][98] = 4;
+    transitions[1][97] = 5;
+    transitions[2][101] = 1;
+    transitions[4][114] = 2;
+    transitions[5][107] = 3;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1070,12 +1070,12 @@ int Lexer::matchDFA8(size_t startPos) {
 }
 
 int Lexer::matchDFA9(size_t startPos) {
-    int state = 1;
+    int state = 5;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[9] = {false, false, false, false, true, false, false, false, false};
+    bool accepting[9] = {true, false, false, false, false, false, false, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[9][256];
@@ -1086,14 +1086,14 @@ int Lexer::matchDFA9(size_t startPos) {
         }
     }
     
-    transitions[0][116] = 2;
-    transitions[1][99] = 8;
-    transitions[2][105] = 5;
-    transitions[3][117] = 6;
-    transitions[5][110] = 3;
-    transitions[6][101] = 4;
-    transitions[7][110] = 0;
-    transitions[8][111] = 7;
+    transitions[1][116] = 8;
+    transitions[2][110] = 1;
+    transitions[3][111] = 2;
+    transitions[4][101] = 0;
+    transitions[5][99] = 3;
+    transitions[6][110] = 7;
+    transitions[7][117] = 4;
+    transitions[8][105] = 6;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1116,12 +1116,12 @@ int Lexer::matchDFA9(size_t startPos) {
 }
 
 int Lexer::matchDFA10(size_t startPos) {
-    int state = 4;
+    int state = 6;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[7] = {false, false, false, false, false, true, false};
+    bool accepting[7] = {true, false, false, false, false, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[7][256];
@@ -1132,12 +1132,12 @@ int Lexer::matchDFA10(size_t startPos) {
         }
     }
     
-    transitions[0][114] = 1;
-    transitions[1][110] = 5;
-    transitions[2][117] = 0;
-    transitions[3][116] = 2;
-    transitions[4][114] = 6;
-    transitions[6][101] = 3;
+    transitions[1][116] = 4;
+    transitions[2][110] = 0;
+    transitions[3][101] = 1;
+    transitions[4][117] = 5;
+    transitions[5][114] = 2;
+    transitions[6][114] = 3;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1160,7 +1160,7 @@ int Lexer::matchDFA10(size_t startPos) {
 }
 
 int Lexer::matchDFA11(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
@@ -1176,10 +1176,10 @@ int Lexer::matchDFA11(size_t startPos) {
         }
     }
     
-    transitions[0][105] = 3;
-    transitions[1][118] = 2;
-    transitions[2][111] = 0;
-    transitions[3][100] = 4;
+    transitions[0][118] = 3;
+    transitions[1][105] = 2;
+    transitions[2][100] = 4;
+    transitions[3][111] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1202,12 +1202,12 @@ int Lexer::matchDFA11(size_t startPos) {
 }
 
 int Lexer::matchDFA12(size_t startPos) {
-    int state = 3;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[4] = {false, true, false, false};
+    bool accepting[4] = {false, false, true, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[4][256];
@@ -1218,9 +1218,9 @@ int Lexer::matchDFA12(size_t startPos) {
         }
     }
     
-    transitions[0][116] = 1;
-    transitions[2][110] = 0;
-    transitions[3][105] = 2;
+    transitions[0][105] = 1;
+    transitions[1][110] = 3;
+    transitions[3][116] = 2;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1243,12 +1243,12 @@ int Lexer::matchDFA12(size_t startPos) {
 }
 
 int Lexer::matchDFA13(size_t startPos) {
-    int state = 5;
+    int state = 1;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[6] = {false, true, false, false, false, false};
+    bool accepting[6] = {false, false, false, false, false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[6][256];
@@ -1259,11 +1259,11 @@ int Lexer::matchDFA13(size_t startPos) {
         }
     }
     
-    transitions[0][108] = 2;
-    transitions[2][111] = 4;
-    transitions[3][116] = 1;
-    transitions[4][97] = 3;
-    transitions[5][102] = 0;
+    transitions[0][108] = 4;
+    transitions[1][102] = 0;
+    transitions[2][97] = 3;
+    transitions[3][116] = 5;
+    transitions[4][111] = 2;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1286,12 +1286,12 @@ int Lexer::matchDFA13(size_t startPos) {
 }
 
 int Lexer::matchDFA14(size_t startPos) {
-    int state = 0;
+    int state = 1;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[5] = {false, false, true, false, false};
+    bool accepting[5] = {true, false, false, false, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[5][256];
@@ -1302,10 +1302,10 @@ int Lexer::matchDFA14(size_t startPos) {
         }
     }
     
-    transitions[0][99] = 1;
-    transitions[1][104] = 4;
-    transitions[3][114] = 2;
-    transitions[4][97] = 3;
+    transitions[1][99] = 4;
+    transitions[2][97] = 3;
+    transitions[3][114] = 0;
+    transitions[4][104] = 2;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1328,12 +1328,12 @@ int Lexer::matchDFA14(size_t startPos) {
 }
 
 int Lexer::matchDFA15(size_t startPos) {
-    int state = 0;
+    int state = 2;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[7] = {false, false, true, false, false, false, false};
+    bool accepting[7] = {false, false, false, false, false, true, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[7][256];
@@ -1344,12 +1344,12 @@ int Lexer::matchDFA15(size_t startPos) {
         }
     }
     
-    transitions[0][115] = 4;
-    transitions[1][110] = 6;
-    transitions[3][105] = 1;
-    transitions[4][116] = 5;
-    transitions[5][114] = 3;
-    transitions[6][103] = 2;
+    transitions[0][116] = 1;
+    transitions[1][114] = 3;
+    transitions[2][115] = 0;
+    transitions[3][105] = 6;
+    transitions[4][103] = 5;
+    transitions[6][110] = 4;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1526,12 +1526,12 @@ int Lexer::matchDFA16(size_t startPos) {
 }
 
 int Lexer::matchDFA17(size_t startPos) {
-    int state = 2;
+    int state = 1;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[3] = {true, false, false};
+    bool accepting[3] = {false, false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[3][256];
@@ -1542,8 +1542,8 @@ int Lexer::matchDFA17(size_t startPos) {
         }
     }
     
-    transitions[1][61] = 0;
-    transitions[2][33] = 1;
+    transitions[0][61] = 2;
+    transitions[1][33] = 0;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1566,7 +1566,7 @@ int Lexer::matchDFA17(size_t startPos) {
 }
 
 int Lexer::matchDFA18(size_t startPos) {
-    int state = 2;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
@@ -1582,8 +1582,8 @@ int Lexer::matchDFA18(size_t startPos) {
         }
     }
     
-    transitions[0][61] = 1;
-    transitions[2][61] = 0;
+    transitions[0][61] = 2;
+    transitions[2][61] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1606,7 +1606,7 @@ int Lexer::matchDFA18(size_t startPos) {
 }
 
 int Lexer::matchDFA19(size_t startPos) {
-    int state = 0;
+    int state = 2;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
@@ -1622,8 +1622,8 @@ int Lexer::matchDFA19(size_t startPos) {
         }
     }
     
-    transitions[0][62] = 2;
-    transitions[2][61] = 1;
+    transitions[0][61] = 1;
+    transitions[2][62] = 0;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1686,12 +1686,12 @@ int Lexer::matchDFA20(size_t startPos) {
 }
 
 int Lexer::matchDFA21(size_t startPos) {
-    int state = 0;
+    int state = 1;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {false, true};
+    bool accepting[2] = {true, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -1702,7 +1702,7 @@ int Lexer::matchDFA21(size_t startPos) {
         }
     }
     
-    transitions[0][61] = 1;
+    transitions[1][61] = 0;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1725,12 +1725,12 @@ int Lexer::matchDFA21(size_t startPos) {
 }
 
 int Lexer::matchDFA22(size_t startPos) {
-    int state = 0;
+    int state = 1;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {false, true};
+    bool accepting[2] = {true, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -1741,7 +1741,7 @@ int Lexer::matchDFA22(size_t startPos) {
         }
     }
     
-    transitions[0][62] = 1;
+    transitions[1][62] = 0;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1803,12 +1803,12 @@ int Lexer::matchDFA23(size_t startPos) {
 }
 
 int Lexer::matchDFA24(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {true, false};
+    bool accepting[2] = {false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -1819,7 +1819,7 @@ int Lexer::matchDFA24(size_t startPos) {
         }
     }
     
-    transitions[1][43] = 0;
+    transitions[0][43] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1881,12 +1881,12 @@ int Lexer::matchDFA25(size_t startPos) {
 }
 
 int Lexer::matchDFA26(size_t startPos) {
-    int state = 0;
+    int state = 1;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {false, true};
+    bool accepting[2] = {true, false};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -1897,7 +1897,7 @@ int Lexer::matchDFA26(size_t startPos) {
         }
     }
     
-    transitions[0][42] = 1;
+    transitions[1][42] = 0;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1959,12 +1959,12 @@ int Lexer::matchDFA27(size_t startPos) {
 }
 
 int Lexer::matchDFA28(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {true, false};
+    bool accepting[2] = {false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -1975,7 +1975,7 @@ int Lexer::matchDFA28(size_t startPos) {
         }
     }
     
-    transitions[1][37] = 0;
+    transitions[0][37] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -1998,12 +1998,12 @@ int Lexer::matchDFA28(size_t startPos) {
 }
 
 int Lexer::matchDFA29(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {true, false};
+    bool accepting[2] = {false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -2014,7 +2014,7 @@ int Lexer::matchDFA29(size_t startPos) {
         }
     }
     
-    transitions[1][44] = 0;
+    transitions[0][44] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -2076,12 +2076,12 @@ int Lexer::matchDFA30(size_t startPos) {
 }
 
 int Lexer::matchDFA31(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {true, false};
+    bool accepting[2] = {false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -2092,7 +2092,7 @@ int Lexer::matchDFA31(size_t startPos) {
         }
     }
     
-    transitions[1][58] = 0;
+    transitions[0][58] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -2154,12 +2154,12 @@ int Lexer::matchDFA32(size_t startPos) {
 }
 
 int Lexer::matchDFA33(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {true, false};
+    bool accepting[2] = {false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -2170,7 +2170,7 @@ int Lexer::matchDFA33(size_t startPos) {
         }
     }
     
-    transitions[1][41] = 0;
+    transitions[0][41] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -2271,12 +2271,12 @@ int Lexer::matchDFA35(size_t startPos) {
 }
 
 int Lexer::matchDFA36(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {true, false};
+    bool accepting[2] = {false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -2287,7 +2287,7 @@ int Lexer::matchDFA36(size_t startPos) {
         }
     }
     
-    transitions[1][91] = 0;
+    transitions[0][91] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
@@ -2310,12 +2310,12 @@ int Lexer::matchDFA36(size_t startPos) {
 }
 
 int Lexer::matchDFA37(size_t startPos) {
-    int state = 1;
+    int state = 0;
     size_t currentPos = startPos;
     size_t lastAcceptingPos = string::npos;
     
     // 接受状态集合
-    bool accepting[2] = {true, false};
+    bool accepting[2] = {false, true};
     
     // 状态转换表: transitions[state][char] = nextState
     int transitions[2][256];
@@ -2326,7 +2326,7 @@ int Lexer::matchDFA37(size_t startPos) {
         }
     }
     
-    transitions[1][93] = 0;
+    transitions[0][93] = 1;
     
     // 执行DFA匹配
     while (currentPos < text.length()) {
